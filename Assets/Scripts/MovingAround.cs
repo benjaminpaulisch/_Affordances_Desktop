@@ -58,6 +58,7 @@ public class MovingAround : MonoBehaviour
         {
             {
                 transform.position = startPosition;
+                Turning = 180f;
             }
 
             // if (Input.GetMouseButton(0)){
