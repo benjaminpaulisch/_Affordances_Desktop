@@ -14,12 +14,13 @@ public class RotateCircle : MonoBehaviour
     public List<Vector3> newPos;
     public GameObject Manager;
     private Manager m;
+    private Vector3 startPosition;
     
     // Start is called before the first frame update
     void Start()
     {
         m = Manager.GetComponent<Manager>();
-        MoveUpSpeed = MoveUpSpeed/1000;
+        MoveUpSpeed = 0.1f;
         OriginRotateSpeed = RotateSpeed;
 
         //Generating a list of possible positions
@@ -37,14 +38,16 @@ public class RotateCircle : MonoBehaviour
         }
 
         transform.position = newPos[m.CurrentTrial];
+        startPosition = transform.position;
     }
     private void OnTriggerEnter(Collider other) {
             if (!movedUp && !m.isDark) {
                 m.circleTouched = true;
                 movedUp = true;
-                StartCoroutine(MoveCircle());
+                //StartCoroutine(MoveCircle());
                 RotateSpeed += 800f;
-            }
+            transform.position = Vector3.MoveTowards(transform.position, new Vector3(transform.position.x, startPosition.y + 2, transform.position.z), MoveUpSpeed);
+        }
     }
 
     private void OnTriggerExit(Collider other) {
@@ -64,15 +67,21 @@ public class RotateCircle : MonoBehaviour
             movedUp = false;
         }
         transform.RotateAround(transform.position, Vector3.up, RotateSpeed*Time.deltaTime);
+        if (m.circleTouched)
+        {
+            transform.position = Vector3.MoveTowards(transform.position, new Vector3(transform.position.x, startPosition.y + 10, transform.position.z), MoveUpSpeed/2);
+        }
+        
+
     }
-    IEnumerator MoveCircle(){
+    /*IEnumerator MoveCircle(){
         for (float f = 0; f < 1; f += MoveUpSpeed)
         {
-            transform.position = Vector3.Lerp(transform.position, new Vector3(transform.position.x , transform.position.y+2, transform.position.z), f);
+            transform.position = Vector3.Lerp(transform.position, new Vector3(transform.position.x , startPosition.y+2, transform.position.z), f);
             //transform.position = Vector3.Lerp(transform.position, new Vector3(newPos[m.CurrentTrial].x, newPos[m.CurrentTrial].y+2, newPos[m.CurrentTrial].z), f);
             yield return new WaitForSeconds(MoveUpSpeed);
         }
         //transform.Translate(Vector3.up * Time.deltaTime, Space.World);
         //yield return null;
-    }
+    }*/
 }
