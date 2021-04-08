@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+//using UnityEngine.UI;
 using System.Linq;
 using Assets.LSL4Unity.Scripts;
 using System.IO;
@@ -19,6 +20,8 @@ public class Manager : MonoBehaviour
     public bool isDark;
     public bool shownImperative;
     public bool circleTouched = false;
+    public bool doorRed = false;
+    public bool samAnswered = false;
 
     [Header("Managing trials")]
     public int TotalNumberTrials = 240;
@@ -49,10 +52,13 @@ public class Manager : MonoBehaviour
     public int LightSD = 2;
     public List<int> TimeToImperativeList;
     public GameObject Sphere;
+    //public Text myText;
+
 
     // Start is called before the first frame update
     void Start()
     {
+        
         //Getting LSL stream
         marker = FindObjectOfType<LSLMarkerStream>();
 
@@ -91,12 +97,16 @@ public class Manager : MonoBehaviour
 
         //Setting start status
         isDark = true;
-        DarkTimer = TimeInDarkList[CurrentTrial];
+        DarkTimer = 5f;
+        //if (CurrentTrial == 1) { DarkTimer = 10f; }
         LightTimer = TimeToImperativeList[CurrentTrial];
         GoNoGoState = "";
+        samAnswered = false;
 
         //Retrieving the SAM questionnaire
         SAMcode = gameobjectSAM.GetComponent<SAM>();
+
+       
     }
 
     // Update is called once per frame
@@ -111,6 +121,7 @@ public class Manager : MonoBehaviour
         if (isDark == true) {LightStatus = "Dark";}
         if (isDark == true) {GoNoGoState = "";}
         CurrentStatus = "#" + CurrentTrial.ToString() + ";" + CurrentDoorType + ";" + LightStatus + ";" + GoNoGoState;
+        //if (CurrentTrial == 1) { DarkTimer = 10f; }
 
 
 
@@ -122,6 +133,7 @@ public class Manager : MonoBehaviour
                 eventMarkerRun = false;
                 sendMarker();
                 LightsOnRun = true;
+                //circleTouched = false;
             }
         }
         // Lights off:
@@ -130,6 +142,7 @@ public class Manager : MonoBehaviour
                 eventMarkerRun = false;
                 sendMarker();
                 LightsOffRun = true;
+                //circleTouched = false;
             }
         }
         // Go/NoGo cue:
@@ -138,6 +151,7 @@ public class Manager : MonoBehaviour
                 eventMarkerRun = false;
                 sendMarker();
                 GoCueRun = true;
+                //circleTouched = false;
             }
         }
 
@@ -166,16 +180,23 @@ public class Manager : MonoBehaviour
         if (LightTimer <= 0 && !runOnceLight) {
             GoNoGoState = GoNoGoList[CurrentTrial];
             if (GoNoGoState == "NoGo") {
-                circleTouched = true;
+                doorRed = true;
             }
             shownImperative = true;
             runOnceLight = true;
         }
+        if (SAMcode.allAnswered)
+        {
+            samAnswered = true;
+        }
 
         //Once the trial is done
-        if (Input.GetKeyDown(KeyCode.Space) && circleTouched && SAMcode.allAnswered){
+        if (Input.GetKeyDown(KeyCode.Space) && SAMcode.allAnswered){
             CurrentTrial += 1;
             DarkTimer = TimeInDarkList[CurrentTrial];
+            if (CurrentTrial == 1)
+            { DarkTimer = 10f; }
+            //DarkTimer = TimeInDarkList[CurrentTrial];
             LightTimer = TimeToImperativeList[CurrentTrial];
             runOnceLight = false;
             shownImperative = false;
@@ -184,6 +205,8 @@ public class Manager : MonoBehaviour
             LightsOnRun = false;
             LightsOffRun = false;
             GoCueRun = false;
+            doorRed = false;
+            samAnswered = false;
         }
     }
 
