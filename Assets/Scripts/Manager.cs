@@ -22,6 +22,7 @@ public class Manager : MonoBehaviour
     public bool circleTouched = false;
     public bool doorRed = false;
     public bool samAnswered = false;
+    public bool breakTime = false;
 
     [Header("Managing trials")]
     public int TotalNumberTrials = 240;
@@ -133,6 +134,7 @@ public class Manager : MonoBehaviour
                 eventMarkerRun = false;
                 sendMarker();
                 LightsOnRun = true;
+                breakTime = false;
                 //circleTouched = false;
             }
         }
@@ -194,8 +196,10 @@ public class Manager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space) && SAMcode.allAnswered){
             CurrentTrial += 1;
             DarkTimer = TimeInDarkList[CurrentTrial];
-            if (CurrentTrial == 1)
-            { DarkTimer = 10f; }
+            if (CurrentTrial == 1 || CurrentTrial == 4)
+            { DarkTimer = 10f;
+                breakTime = true;
+            }
             //DarkTimer = TimeInDarkList[CurrentTrial];
             LightTimer = TimeToImperativeList[CurrentTrial];
             runOnceLight = false;
