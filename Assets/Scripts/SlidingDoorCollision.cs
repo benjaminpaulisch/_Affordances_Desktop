@@ -42,7 +42,7 @@ public class SlidingDoorCollision : MonoBehaviour
         if (m.shownImperative){
             StartCoroutine(SlideDoor());
             if (m.GoNoGoState == "Go" && m.CurrentDoorType == "Narrow") {
-                m.circleTouched = true;
+                m.narrowDoorTouched = true;
             }
         }
     }

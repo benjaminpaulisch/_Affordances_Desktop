@@ -20,9 +20,17 @@ public class Manager : MonoBehaviour
     public bool isDark;
     public bool shownImperative;
     public bool circleTouched = false;
+    
+    // this part was added by Christoph
     public bool doorRed = false;
     public bool samAnswered = false;
     public bool breakTime = false;
+    public float breakTimer = 0f;
+    public bool breakTimeSet = false;
+    public bool narrowDoorTouched = false;
+    public bool breakTimeBlack = false;
+    public bool shortBreak = false;
+    // end of Christoph's part
 
     [Header("Managing trials")]
     public int TotalNumberTrials = 240;
@@ -53,7 +61,6 @@ public class Manager : MonoBehaviour
     public int LightSD = 2;
     public List<int> TimeToImperativeList;
     public GameObject Sphere;
-    //public Text myText;
 
 
     // Start is called before the first frame update
@@ -168,7 +175,7 @@ public class Manager : MonoBehaviour
         }
 
         //Changes because it's now Light
-        if (DarkTimer <= 0) {
+        if (DarkTimer <= 0 && !breakTimeBlack) {
             isDark = false;
             Sphere.SetActive(false);
         }
@@ -191,15 +198,57 @@ public class Manager : MonoBehaviour
         {
             samAnswered = true;
         }
+        // FOR TESTING 
+        if ((CurrentTrial == 1 || CurrentTrial == 3) && samAnswered)
+        {
+            breakTime = true;
+        }
+
+        if (SAMcode.allAnswered && breakTime && !breakTimeSet)
+        {
+            breakTimer = 2f;
+            breakTimeSet = true;
+        }
+        if ((CurrentTrial == 0 || CurrentTrial ==2) && samAnswered)
+        {
+            shortBreak = true;
+        }
+
+
+        //REAL CODE
+        /*if ((CurrentTrial == 90 || CurrentTrial == 180) && samAnswered)
+        {
+            breakTime = true;
+        }
+
+        if (SAMcode.allAnswered && breakTime && !breakTimeSet)
+        {
+            breakTimer = 600f;
+            breakTimeSet = true;
+        }
+        */
+
+        if (breakTimer > 0 && SAMcode.allAnswered)
+        {
+            breakTimer -= Time.deltaTime;
+            Sphere.SetActive(true);
+            breakTimeBlack = true;
+        }
+
+        if (breakTimer <= 0)
+        {
+            breakTime = false;
+        }
 
         //Once the trial is done
-        if (Input.GetKeyDown(KeyCode.Space) && SAMcode.allAnswered){
+        if (Input.GetKeyDown(KeyCode.Space) && SAMcode.allAnswered && !breakTime){
             CurrentTrial += 1;
             DarkTimer = TimeInDarkList[CurrentTrial];
-            if (CurrentTrial == 1 || CurrentTrial == 4)
-            { DarkTimer = 10f;
+            /*if (CurrentTrial == 1 || CurrentTrial == 4)
+            { DarkTimer = 1f;
                 breakTime = true;
             }
+            */
             //DarkTimer = TimeInDarkList[CurrentTrial];
             LightTimer = TimeToImperativeList[CurrentTrial];
             runOnceLight = false;
@@ -211,6 +260,10 @@ public class Manager : MonoBehaviour
             GoCueRun = false;
             doorRed = false;
             samAnswered = false;
+            breakTimeSet = false;
+            narrowDoorTouched = false;
+            breakTimeBlack = false;
+            shortBreak = false;
         }
     }
 

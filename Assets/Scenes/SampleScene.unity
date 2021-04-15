@@ -2096,7 +2096,7 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 882394713}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
@@ -2349,7 +2349,7 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 0.5, y: 0.5, z: 0.8}
@@ -2644,7 +2644,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 100}
-  m_SizeDelta: {x: 160, y: 60}
+  m_SizeDelta: {x: 200, y: 80}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1160594308
 MonoBehaviour:
@@ -2739,6 +2739,12 @@ MonoBehaviour:
   circleTouched: 0
   doorRed: 0
   samAnswered: 0
+  breakTime: 0
+  breakTimer: 0
+  breakTimeSet: 0
+  narrowDoorTouched: 0
+  breakTimeBlack: 0
+  shortBreak: 0
   TotalNumberTrials: 240
   CurrentTrial: 0
   CurrentDoorType: 
