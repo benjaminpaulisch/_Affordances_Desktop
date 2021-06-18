@@ -93,9 +93,13 @@ public class SAM : MonoBehaviour
             selectionSquareDominance.SetActive(false);
         }
 
-        if (insideSquareScript.insideSquare && !m.isDark && m.circleTouched) {
+        if (insideSquareScript.insideSquare && !m.isDark && (m.circleTouched || m.doorRed || m.narrowDoorTouched)) {
             canAnswer = true;
         }
+       /*if (insideSquareScript.insideSquare && !m.isDark && m.doorRed)
+        {
+            canAnswer = true;
+        }*/
         else {
             canAnswer = false;
         }
