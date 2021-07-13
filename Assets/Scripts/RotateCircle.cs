@@ -8,10 +8,10 @@ public class RotateCircle : MonoBehaviour
     private float OriginRotateSpeed;
     [SerializeField] [Range(0f, 2f)] float MoveUpSpeed;
     [SerializeField] [Range(0.5f, 2.0f)] float CircleHeight = 1.5f;
-    public bool movedUp = false;
+    public bool movedUp = false;    //[BPA]: why is this a public var?
     private Vector3 targetPos;
-    public List<Vector3> newPosTemp;
-    public List<Vector3> newPos;
+    public List<Vector3> newPosTemp;    //[BPA]: why is this a public var?
+    public List<Vector3> newPos;        //[BPA]: why is this a public var?
     public GameObject Manager;
     private Manager m;
     private Vector3 startPosition;
@@ -20,7 +20,7 @@ public class RotateCircle : MonoBehaviour
     void Start()
     {
         m = Manager.GetComponent<Manager>();
-        MoveUpSpeed = 0.1f;
+        MoveUpSpeed = 0.1f;     //[BPA]: why overwrite the value set within the Unity Editor??
         OriginRotateSpeed = RotateSpeed;
 
         //Generating a list of possible positions

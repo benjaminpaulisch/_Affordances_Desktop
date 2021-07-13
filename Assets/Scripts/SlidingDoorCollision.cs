@@ -39,10 +39,10 @@ public class SlidingDoorCollision : MonoBehaviour
     }
 
     private void OnTriggerEnter(Collider other) {
-        if (m.shownImperative){
+        if (m.shownImperative){     //[BPA]: what if collision started before imperative was shown?
             StartCoroutine(SlideDoor());
             if (m.GoNoGoState == "Go" && m.CurrentDoorType == "Narrow") {
-                m.narrowDoorTouched = true;
+                m.narrowDoorTouched = true;     //[BPA]: it's not really touching the door isn't it? The collider starts well before the door. Maybe better to use the invis_wall?
             }
         }
     }

@@ -25,10 +25,10 @@ public class MovingAround : MonoBehaviour
 
     void Start()
     {
-        transform.position = new Vector3(-2.5f, PlayerHeight, 0f);
-        Turning = 180f;
-        TurningSpeed = 100f;
-        startPosition = transform.position;
+        transform.position = new Vector3(-2.5f, PlayerHeight, 0f);  //[BPA]: shouldn't this better tied to the startSquare position?
+        Turning = 180f;     //[BPA]: why overwrite the value set within the Unity Editor??
+        TurningSpeed = 100f;    //[BPA]: why overwrite the value set within the Unity Editor??
+        startPosition = transform.position;     //[BPA]: shouldn't this better tied to the startSquare position?
     }
 
     // Update is called once per frame
@@ -41,7 +41,7 @@ public class MovingAround : MonoBehaviour
         {
             //transform.position += transform.right * MovementX * Time.deltaTime * MovingSpeed;
             transform.position += transform.forward * MovementY * Time.deltaTime * MovingSpeed;
-            transform.position = new Vector3(transform.position.x, PlayerHeight, transform.position.z);
+            transform.position = new Vector3(transform.position.x, PlayerHeight, transform.position.z); //[BPA]: is this line obsolete?
         }
 
         if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
